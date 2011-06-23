@@ -1,0 +1,207 @@
+#if !defined(CETTY_CHANNEL_CHANNELCONFIG_H)
+#define CETTY_CHANNEL_CHANNELCONFIG_H
+
+/*
+ * Copyright 2009 Red Hat, Inc.
+ *
+ * Red Hat licenses this file to you under the Apache License, version 2.0
+ * (the "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at:
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+/*
+ * Copyright (c) 2010-2011 frankee zhou (frankee.zhou at gmail dot com)
+ * Distributed under under the Apache License, version 2.0 (the "License").
+ */
+
+#include <map>
+#include <string>
+#include <boost/any.hpp>
+
+#include "cetty/channel/ChannelPipelineFactory.h"
+
+namespace cetty { namespace buffer {
+class ChannelBufferFactory;
+}}
+
+namespace cetty { namespace channel {
+    
+using namespace ::cetty::buffer;
+
+/**
+ * A set of configuration properties of a {@link Channel}.
+ * <p>
+ * Please down-cast to more specific configuration type such as
+ * {@link SocketChannelConfig} or use {@link #setOptions(Map)} to set the
+ * transport-specific properties:
+ * <pre>
+ * {@link Channel} ch = ...;
+ * {@link SocketChannelConfig} cfg = <strong>({@link SocketChannelConfig}) ch.getConfig();</strong>
+ * cfg.setTcpNoDelay(false);
+ * </pre>
+ *
+ * <h3>Option map</h3>
+ *
+ * An option map property is a dynamic write-only property which allows
+ * the configuration of a {@link Channel} without down-casting its associated
+ * {@link ChannelConfig}.  To update an option map, please call {@link #setOptions(Map)}.
+ * <p>
+ * All {@link ChannelConfig} has the following options:
+ *
+ * <table border="1" cellspacing="0" cellpadding="6">
+ * <tr>
+ * <th>Name</th><th>Associated setter method</th>
+ * </tr><tr>
+ * <td><tt>"bufferFactory"</tt></td><td>{@link #setBufferFactory(ChannelBufferFactory)}</td>
+ * </tr><tr>
+ * <td><tt>"connectTimeoutMillis"</tt></td><td>{@link #setConnectTimeoutMillis(int)}</td>
+ * </tr><tr>
+ * <td><tt>"pipelineFactory"</tt></td><td>{@link #setPipelineFactory(ChannelPipelineFactory)}</td>
+ * </tr>
+ * </table>
+ * <p>
+ * More options are available in the sub-types of {@link ChannelConfig}.  For
+ * example, you can configure the parameters which are specific to a TCP/IP
+ * socket as explained in {@link SocketChannelConfig} or {@link NioSocketChannelConfig}.
+ *
+ * 
+ * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ *
+ * @version $Rev: 2122 $, $Date: 2010-02-02 11:00:04 +0900 (Tue, 02 Feb 2010) $
+ *
+ * @apiviz.has org.jboss.netty.channel.ChannelPipelineFactory
+ * @apiviz.composedOf org.jboss.netty.channel.ReceiveBufferSizePredictor
+ *
+ * @apiviz.excludeSubtypes
+ */
+
+class ChannelConfig {
+public:
+    virtual ~ChannelConfig() {}
+
+    /**
+     * Sets the configuration properties from the specified {@link Map}.
+     *
+     * @throws InvalidArgumentException if there is invalid value.
+     */
+    virtual void setOptions(const std::map<std::string, boost::any>& options) = 0;
+
+    /**
+     * Sets a configuration property with the specified name and value.
+     * To override this method properly, you must call the super class:
+     * <pre>
+     * public bool setOption(std::string name, Object value) {
+     *     if (super.setOption(name, value)) {
+     *         return true;
+     *     }
+     *
+     *     if (name.equals("additionalOption")) {
+     *         ....
+     *         return true;
+     *     }
+     *
+     *     return false;
+     * }
+     * </pre>
+     *
+     * @return <tt>true</tt> if and only if the property has been set
+     *
+     * @throws InvalidArgumentException if the value is invalid.
+     */
+    virtual bool setOption(const std::string& key, const boost::any& value) = 0;
+
+    /**
+     * Returns the default {@link ChannelBufferFactory} used to create a new
+     * {@link ChannelBuffer}.  The default is {@link HeapChannelBufferFactory}.
+     * You can specify a different factory to change the default
+     * {@link ByteOrder} for example.
+     */
+    virtual ChannelBufferFactory* getBufferFactory() const = 0;
+
+    /**
+     * Sets the default {@link ChannelBufferFactory} used to create a new
+     * {@link ChannelBuffer}.  The default is {@link HeapChannelBufferFactory}.
+     * You can specify a different factory to change the default
+     * {@link ByteOrder} for example.
+     *
+     * @throws NullPointerException
+     */
+    virtual void setBufferFactory(ChannelBufferFactory* bufferFactory) = 0;
+
+    /**
+     * Returns the {@link ChannelPipelineFactory} which will be used when
+     * a child channel is created.  If the {@link Channel} does not create
+     * a child channel, this property is not used at all, and therefore will
+     * be ignored.
+     */
+    virtual const ChannelPipelineFactoryPtr& getPipelineFactory() const = 0;
+
+    /**
+     * Sets the {@link ChannelPipelineFactory} which will be used when
+     * a child channel is created.  If the {@link Channel} does not create
+     * a child channel, this property is not used at all, and therefore will
+     * be ignored.
+     *
+     * @throws NullPointerException
+     *
+     */
+    virtual void setPipelineFactory(const ChannelPipelineFactoryPtr& pipelineFactory) = 0;
+
+    /**
+     * Returns the connect timeout of the channel in milliseconds.  If the
+     * {@link Channel} does not support connect operation, this property is not
+     * used at all, and therefore will be ignored.
+     *
+     * @return the connect timeout in milliseconds.  <tt>0</tt> if disabled.
+     */
+    virtual int getConnectTimeoutMillis() const = 0;
+
+    /**
+     * Sets the connect timeout of the channel in milliseconds.  If the
+     * {@link Channel} does not support connect operation, this property is not
+     * used at all, and therefore will be ignored.
+     *
+     * @param connectTimeoutMillis the connect timeout in milliseconds.
+     *                             <tt>0</tt> to disable.
+     */
+    virtual void setConnectTimeoutMillis(int connectTimeoutMillis) = 0;
+
+    /**
+     * Return the Channel has private ChannelBuffer nor not.
+     * If the {@link Channel} has private ChannelBuffer, the number of the
+     * {@link ChannelBuffer} is the same as {@link Channel}, that is to say,
+     * every Channel has a separated ChannelBuffer.
+     * If not, all {@link Channel}s will share some number of {@link ChannelBuffer}s;
+     *
+     * Generally, in the proactor partten, {@link Channel} has private {@link ChannelBuffer},
+     * and in the reactor partten,  {@link Channel} has NOT private {@link ChannelBuffer}.
+     */
+    virtual bool channelOwnBuffer() const = 0;
+
+    /**
+     * Returns the private buffer size of the channel. If the {@link Channel} has not 
+     * {@link channelOwnBuffer own buffer}, the return value will be ignored.
+     *
+     * @return BufferSize in bytes.  <tt>0</tt> if disabled.
+     */
+    virtual int  getChannelOwnBufferSize() const = 0;
+
+    /**
+     * Set the private buffer size of the channel. If the {@link Channel} has not 
+     * {@link channelOwnBuffer own buffer}, the set value will be ignored.
+     *
+     * @param bufferSize in bytes.
+     */
+    virtual void setChannelOwnBufferSize(int bufferSize) = 0;
+};
+
+}}
+
+#endif //#if !defined(CETTY_CHANNEL_CHANNELCONFIG_H)
