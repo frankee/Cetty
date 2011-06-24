@@ -82,7 +82,12 @@ void AsioClientSocketPipelineSink::handleStateChange(AsioSocketChannel& channel,
         }
     }
     else if (state == ChannelState::INTEREST_OPS) {
-        channel.setInterestOps(future, ConversionUtil::toInt(value));
+        channel.getIOService().service().post(
+            boost::bind(AsioSocketChannel::setInterestOps,
+            &channel,
+            future,
+            ConversionUtil::toInt(value)));
+        //channel.setInterestOps(future, ConversionUtil::toInt(value));
     }
 }
 

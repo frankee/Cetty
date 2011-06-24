@@ -34,7 +34,7 @@ class HttpMessage;
  *
  * 
  * @author Andy Taylor (andy.taylor@jboss.org)
- * @version $Rev: 2313 $, $Date: 2010-06-22 16:01:47 +0900 (Tue, 22 Jun 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.landmark
  * @apiviz.stereotype static
@@ -47,7 +47,7 @@ public:
      *
      * 
      * @author Andy Taylor (andy.taylor@jboss.org)
-     * @version $Rev: 2313 $, $Date: 2010-06-22 16:01:47 +0900 (Tue, 22 Jun 2010) $
+     * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
      *
      * @apiviz.stereotype static
      */
@@ -308,7 +308,7 @@ public:
      *
      * 
      * @author Andy Taylor (andy.taylor@jboss.org)
-     * @version $Rev: 2313 $, $Date: 2010-06-22 16:01:47 +0900 (Tue, 22 Jun 2010) $
+     * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
      *
      * @apiviz.stereotype static
      */

@@ -43,10 +43,9 @@ class ChannelFuture;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2185 $, $Date: 2010-02-19 14:13:48 +0900 (Fri, 19 Feb 2010) $
  */
-
 class ChannelFutureListener : public cetty::util::EventListener {
 public:
     virtual ~ChannelFutureListener() {}
@@ -64,8 +63,8 @@ public:
     static ChannelFutureListener* CLOSE_ON_FAILURE;
 
     /**
-     * Invoked when the I/O operation associated with the {@link ChannelFuture}
-     * has been completed.
+     * Invoked when the I/O operation associated with the
+     * {@link ChannelFuture const ChannelFuturePtr&} has been completed.
      *
      * @param future  the source {@link ChannelFuture} which called this
      *                callback

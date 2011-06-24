@@ -68,7 +68,7 @@ void AsioDatagramPipelineSink::handleStateChange(AsioDatagramChannel& channel, c
     }
     else if (state == ChannelState::CONNECTED) {
         if (value.empty()) {
-            //NioDatagramWorker.disconnect(channel, future);
+            //disconnect(channel, future);
         }
         else {
             const SocketAddress* address = boost::any_cast<SocketAddress>(&value);
@@ -81,7 +81,7 @@ void AsioDatagramPipelineSink::handleStateChange(AsioDatagramChannel& channel, c
         }
     }
     else if (state == ChannelState::INTEREST_OPS) {
-        //channel.worker.setInterestOps(channel, future, ((Integer) value).intValue());
+        //setInterestOps(channel, future, ((Integer) value).intValue());
     }
 }
 

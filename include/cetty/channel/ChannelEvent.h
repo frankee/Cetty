@@ -50,10 +50,9 @@ class Channel;
  * sent a request to the server, it means your client triggered a downstream
  * event.  If your client received a response from the server, it means
  * your client will be notified with an upstream event.  Upstream events are
- * often the result of inbound operations such as {@link InputStream#read(byte[])},
+ * often the result of inbound operations such as read from socket, 
  * and downstream events are the request for outbound operations such as
- * {@link OutputStream#write(byte[])}, {@link Socket#connect(SocketAddress)},
- * and {@link Socket#close()}.
+ * write bytes to socket, connect to remote SocketAddress, and close socket.
  *
  * <h4>Upstream events</h4>
  *
@@ -182,11 +181,17 @@ class Channel;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2080 $, $Date: 2010-01-26 18:04:19 +0900 (Tue, 26 Jan 2010) $
  *
- * @apiviz.landmark
- * @apiviz.composedOf org.jboss.netty.channel.ChannelFuture
+ * @dot
+ * strict digraph {
+ * node            [fontname=Helvetica]
+ * ChannelEvent    [shape=box]
+ * ChannelFuture   [shape=box URL="\ref ChannelFuture"]
+ * ChannelEvent -> ChannelFuture [arrowtail=diamond]
+ * }
+ * @enddot
  */
 
 class ChannelEvent {
@@ -199,7 +204,7 @@ public:
     virtual Channel& getChannel() const = 0;
 
     /**
-     * Returns the {@link ChannelFuture} which is associated with this event.
+     * Returns the {@link ChannelFuture const ChannelFuturePtr&} which is associated with this event.
      * If this event is an upstream event, this method will always return a
      * {@link SucceededChannelFuture} because the event has occurred already.
      * If this event is a downstream event (i.e. I/O request), the returned

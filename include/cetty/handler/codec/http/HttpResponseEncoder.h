@@ -32,7 +32,7 @@ namespace cetty { namespace handler { namespace codec { namespace http {
  * 
  * @author Andy Taylor (andy.taylor@jboss.org)
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2118 $, $Date: 2010-02-01 17:32:18 +0900 (Mon, 01 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class HttpResponseEncoder : public HttpMessageEncoder {

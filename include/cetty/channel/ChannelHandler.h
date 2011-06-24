@@ -61,20 +61,23 @@ class ChannelHandler;
  * A {@link ChannelHandler} often needs to store some stateful information.
  * The simplest and recommended approach is to use member variables:
  * <pre>
- * public class DataServerHandler extends {@link SimpleChannelHandler} {
+ * class DataServerHandler : public {@link SimpleChannelHandler} {
  *
- *     <b>private bool loggedIn;</b>
+ *     <b>private: bool loggedIn;</b>
  *
- *     public void messageReceived({@link ChannelHandlerContext} ctx, {@link MessageEvent} e) {
- *         {@link Channel} ch = e.getChannel();
- *         Object o = e.getMessage();
- *         if (o instanceof LoginMessage) {
- *             authenticate((LoginMessage) o);
+ *     void messageReceived({@link ChannelHandlerContext} &ctx, const {@link MessageEvent} &e) {
+ *         {@link Channel} &ch = e.getChannel();
+ *         LoginMessage* loginmsg  = e.getMessage().pointer<LoginMessage>();
+ *         if (loginmsg) {
+ *             authenticate(loginmsg);
  *             <b>loggedIn = true;</b>
- *         } else (o instanceof GetDataMessage) {
+ *         }
+ *         GetDataMessage* data = e.getMessage().pointer<GetDataMessage>();
+ *         if (data) {
  *             if (<b>loggedIn</b>) {
- *                 ch.write(fetchSecret((GetDataMessage) o));
- *             } else {
+ *                 ch.write(fetchSecret(data));
+ *             }
+ *             else {
  *                 fail();
  *             }
  *         }
@@ -88,10 +91,10 @@ class ChannelHandler;
  * the confidential information:
  * <pre>
  * // Create a new handler instance per channel.
- * // See {@link Bootstrap#setPipelineFactory(ChannelPipelineFactory)}.
- * public class DataServerPipelineFactory implements {@link ChannelPipelineFactory} {
- *     public {@link ChannelPipeline} getPipeline() {
- *         return {@link Channels}.pipeline(<b>new DataServerHandler()</b>);
+ * // See {@link Bootstrap#setPipelineFactory(constChannelPipelineFactoryPtr&)}.
+ * class DataServerPipelineFactory : public {@link ChannelPipelineFactory} {
+ *     {@link ChannelPipeline}* getPipeline() {
+ *         return {@link Channels}::pipeline(ChannelHandlerPtr(<b>new DataServerHandler()</b>));
  *     }
  * }
  * </pre>
@@ -103,10 +106,9 @@ class ChannelHandler;
  * In such a case, you can use an <em>attachment</em> which is provided by
  * {@link ChannelHandlerContext}:
  * <pre>
- * <tt>@Sharable</tt>
- * public class DataServerHandler extends {@link SimpleChannelHandler} {
- *
- *     public void messageReceived({@link ChannelHandlerContext} ctx, {@link MessageEvent} e) {
+ * class DataServerHandler : public {@link SimpleChannelHandler} {
+ * public:
+ *     void messageReceived({@link ChannelHandlerContext}& ctx, const {@link MessageEvent}& e) {
  *         {@link Channel} ch = e.getChannel();
  *         Object o = e.getMessage();
  *         if (o instanceof LoginMessage) {
@@ -205,11 +207,7 @@ class ChannelHandler;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- *
- * @version $Rev: 2152 $, $Date: 2010-02-17 17:22:45 +0900 (Wed, 17 Feb 2010) $
- *
- * @apiviz.landmark
- * @apiviz.exclude ^org\.jboss\.netty\.handler\..*$
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 typedef boost::intrusive_ptr<ChannelHandler> ChannelHandlerPtr;
@@ -219,20 +217,26 @@ public:
     virtual ~ChannelHandler() {}
     
     /**
-     * Indicates that the same instance of the annotated {@link ChannelHandler}
-     * can be added to one or more {@link ChannelPipeline}s multiple times
-     * without a race condition.
+     * Clone the instance of {@link ChannelHandler this}.
+     * 
+     * If the returned instance is same with this, it indicated that the
+     * {@link ChannelHandler} can be added to one or more {@link ChannelPipeline}s
+     * multiple times without a race condition, that is mean SHAREABLE.
      * <p>
-     * If this annotation is not specified, you have to create a new handler
-     * instance every time you add it to a pipeline because it has unshared
-     * state such as member variables.
+     * If this handler is shareable, you can just return shared_from_this();
+     * <p>
+     * If this handler is not shareable, which has unshared state such as member
+     * variables, you have to create a new handler instance every time.
      * <p>
      * 
      * @author <a href="http://gleamynode.net/">Trustin Lee</a>
-     * @version $Rev: 2152 $, $Date: 2010-02-17 17:22:45 +0900 (Wed, 17 Feb 2010) $
+     * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
      */
     virtual ChannelHandlerPtr clone() = 0;
 
+    /**
+     * Returns a string representation of the ChannelHandler.
+     */
     virtual std::string toString() const = 0;
 };
 

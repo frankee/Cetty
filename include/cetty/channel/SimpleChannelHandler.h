@@ -64,9 +64,9 @@ class WriteCompletionEvent;
  * call <tt>super.handleUpstream()</tt> or <tt>super.handleDownstream()</tt> so
  * that other handler methods are invoked properly:
  * </p>
- * <pre>public class MyChannelHandler extends {@link SimpleChannelHandler} {
- *
- *     public void handleUpstream({@link ChannelHandlerContext} ctx, {@link ChannelEvent} e) {
+ * <pre>class MyChannelHandler : public {@link SimpleChannelHandler} {
+ * public:
+ *     void handleUpstream({@link ChannelHandlerContext} ctx, {@link ChannelEvent} e) {
  *
  *         // Log all channel state changes.
  *         if (e instanceof {@link ChannelStateEvent}) {
@@ -76,7 +76,7 @@ class WriteCompletionEvent;
  *         <strong>super.handleUpstream(ctx, e);</strong>
  *     }
  *
- *     public void handleDownstream({@link ChannelHandlerContext} ctx, {@link ChannelEvent} e) {
+ *     void handleDownstream({@link ChannelHandlerContext} ctx, {@link ChannelEvent} e) {
  *
  *         // Log all channel state changes.
  *         if (e instanceof {@link MessageEvent}) {
@@ -90,7 +90,7 @@ class WriteCompletionEvent;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2122 $, $Date: 2010-02-02 11:00:04 +0900 (Tue, 02 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class SimpleChannelHandler :  public SimpleChannelUpstreamHandler,

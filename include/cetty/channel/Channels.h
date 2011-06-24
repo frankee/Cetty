@@ -73,7 +73,7 @@ class SocketAddress;
  *
  * @apiviz.landmark
  *
- * @version $Rev: 2210 $, $Date: 2010-03-04 08:11:39 +0900 (Thu, 04 Mar 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class Channels {

@@ -33,7 +33,7 @@ namespace cetty { namespace buffer {
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2197 $, $Date: 2010-02-23 09:43:15 +0900 (Tue, 23 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class HeapChannelBufferFactory : public AbstractChannelBufferFactory {

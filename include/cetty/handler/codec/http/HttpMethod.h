@@ -35,7 +35,7 @@ namespace cetty { namespace handler { namespace codec { namespace http {
  *         so all of the HttpMethod will add a <em>HM_</em> prefix.
  *
  * @author Andy Taylor (andy.taylor@jboss.org)
- * @version $Rev: 2080 $, $Date: 2010-01-26 18:04:19 +0900 (Tue, 26 Jan 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.exclude
  */

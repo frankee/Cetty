@@ -39,19 +39,19 @@ using namespace ::cetty::buffer;
  * A set of configuration properties of a {@link Channel}.
  * <p>
  * Please down-cast to more specific configuration type such as
- * {@link SocketChannelConfig} or use {@link #setOptions(Map)} to set the
+ * {@link SocketChannelConfig} or use {@link #setOptions(const std::map<std::string, boost::any>&)} to set the
  * transport-specific properties:
  * <pre>
- * {@link Channel} ch = ...;
- * {@link SocketChannelConfig} cfg = <strong>({@link SocketChannelConfig}) ch.getConfig();</strong>
- * cfg.setTcpNoDelay(false);
+ * {@link Channel Channel&} ch = ...;
+ * {@link SocketChannelConfig} *cfg = <strong>dynamic_cast<{@link SocketChannelConfig}>(&ch.getConfig());</strong>
+ * cfg->setTcpNoDelay(false);
  * </pre>
  *
  * <h3>Option map</h3>
  *
  * An option map property is a dynamic write-only property which allows
  * the configuration of a {@link Channel} without down-casting its associated
- * {@link ChannelConfig}.  To update an option map, please call {@link #setOptions(Map)}.
+ * {@link ChannelConfig}.  To update an option map, please call {@link #setOptions(const std::map<std::string, boost::any>&)}.
  * <p>
  * All {@link ChannelConfig} has the following options:
  *
@@ -59,35 +59,31 @@ using namespace ::cetty::buffer;
  * <tr>
  * <th>Name</th><th>Associated setter method</th>
  * </tr><tr>
- * <td><tt>"bufferFactory"</tt></td><td>{@link #setBufferFactory(ChannelBufferFactory)}</td>
+ * <td><tt>"bufferFactory"</tt></td><td>{@link #setBufferFactory(ChannelBufferFactory*)}</td>
  * </tr><tr>
  * <td><tt>"connectTimeoutMillis"</tt></td><td>{@link #setConnectTimeoutMillis(int)}</td>
  * </tr><tr>
- * <td><tt>"pipelineFactory"</tt></td><td>{@link #setPipelineFactory(ChannelPipelineFactory)}</td>
+ * <td><tt>"pipelineFactory"</tt></td><td>{@link #setPipelineFactory(const ChannelPipelineFactoryPtr& )}</td>
+ * </tr><tr>
+ * <td><tt>"channelOwnBufferSize"</tt></td><td>{@link #setChannelOwnBufferSize(int)}</td>
  * </tr>
  * </table>
  * <p>
  * More options are available in the sub-types of {@link ChannelConfig}.  For
  * example, you can configure the parameters which are specific to a TCP/IP
- * socket as explained in {@link SocketChannelConfig} or {@link NioSocketChannelConfig}.
+ * socket as explained in {@link SocketChannelConfig} or {@link AsioSocketChannelConfig}.
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2122 $, $Date: 2010-02-02 11:00:04 +0900 (Tue, 02 Feb 2010) $
- *
- * @apiviz.has org.jboss.netty.channel.ChannelPipelineFactory
- * @apiviz.composedOf org.jboss.netty.channel.ReceiveBufferSizePredictor
- *
- * @apiviz.excludeSubtypes
  */
-
 class ChannelConfig {
 public:
     virtual ~ChannelConfig() {}
 
     /**
-     * Sets the configuration properties from the specified {@link Map}.
+     * Sets the configuration properties from the specified map.
      *
      * @throws InvalidArgumentException if there is invalid value.
      */
@@ -97,12 +93,12 @@ public:
      * Sets a configuration property with the specified name and value.
      * To override this method properly, you must call the super class:
      * <pre>
-     * public bool setOption(std::string name, Object value) {
-     *     if (super.setOption(name, value)) {
+     * bool setOption(const std::string& key, const boost::any& value) {
+     *     if (super.setOption(key, value)) {
      *         return true;
      *     }
      *
-     *     if (name.equals("additionalOption")) {
+     *     if (name.compare("additionalOption") == 0) {
      *         ....
      *         return true;
      *     }
@@ -118,7 +114,7 @@ public:
     virtual bool setOption(const std::string& key, const boost::any& value) = 0;
 
     /**
-     * Returns the default {@link ChannelBufferFactory} used to create a new
+     * Returns the default {@link ChannelBufferFactory ChannelBufferFactory*} used to create a new
      * {@link ChannelBuffer}.  The default is {@link HeapChannelBufferFactory}.
      * You can specify a different factory to change the default
      * {@link ByteOrder} for example.
@@ -126,7 +122,7 @@ public:
     virtual ChannelBufferFactory* getBufferFactory() const = 0;
 
     /**
-     * Sets the default {@link ChannelBufferFactory} used to create a new
+     * Sets the default {@link ChannelBufferFactory ChannelBufferFactory*} used to create a new
      * {@link ChannelBuffer}.  The default is {@link HeapChannelBufferFactory}.
      * You can specify a different factory to change the default
      * {@link ByteOrder} for example.
@@ -159,7 +155,7 @@ public:
      * {@link Channel} does not support connect operation, this property is not
      * used at all, and therefore will be ignored.
      *
-     * @return the connect timeout in milliseconds.  <tt>0</tt> if disabled.
+     * @return the connect timeout in milliseconds, <tt>0</tt> if disabled.
      */
     virtual int getConnectTimeoutMillis() const = 0;
 
@@ -174,14 +170,16 @@ public:
     virtual void setConnectTimeoutMillis(int connectTimeoutMillis) = 0;
 
     /**
-     * Return the Channel has private ChannelBuffer nor not.
-     * If the {@link Channel} has private ChannelBuffer, the number of the
+     * Return whether the Channel owns private ChannelBuffer nor not.
+     * If the {@link Channel} owns private ChannelBuffer, the count of the
      * {@link ChannelBuffer} is the same as {@link Channel}, that is to say,
      * every Channel has a separated ChannelBuffer.
      * If not, all {@link Channel}s will share some number of {@link ChannelBuffer}s;
      *
-     * Generally, in the proactor partten, {@link Channel} has private {@link ChannelBuffer},
-     * and in the reactor partten,  {@link Channel} has NOT private {@link ChannelBuffer}.
+     * Generally, in the proactor patten, {@link Channel} owns private {@link ChannelBuffer},
+     * and in the reactor patten,  {@link Channel} dost NOT own private {@link ChannelBuffer}.
+     *
+     * the flag is readable only for user.
      */
     virtual bool channelOwnBuffer() const = 0;
 

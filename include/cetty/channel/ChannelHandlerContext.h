@@ -136,10 +136,8 @@ class ChannelStateEvent;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2157 $, $Date: 2010-02-17 17:37:38 +0900 (Wed, 17 Feb 2010) $
- *
- * @apiviz.owns org.jboss.netty.channel.ChannelHandler
  */
 
 class ChannelHandlerContext {

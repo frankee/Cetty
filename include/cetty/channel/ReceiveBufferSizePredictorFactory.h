@@ -16,12 +16,9 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-
 /*
  * Copyright (c) 2010-2011 frankee zhou (frankee.zhou at gmail dot com)
- *
  * Distributed under under the Apache License, version 2.0 (the "License").
- *
  */
 
 namespace cetty { namespace channel {

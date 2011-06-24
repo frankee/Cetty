@@ -29,17 +29,17 @@ namespace cetty { namespace channel {
  * Listens to the progress of a time-consuming I/O operation such as a large
  * file transfer.  If this listener is added to a {@link ChannelFuture} of an
  * I/O operation that supports progress notification, the listener's
- * {@link #operationProgressed(ChannelFuture, long, long, long)} method will be
+ * {@link #operationProgressed(const ChannelFuturePtr&, int, int, int)} method will be
  * called back by an I/O thread.  If the operation does not support progress
- * notification, {@link #operationProgressed(ChannelFuture, long, long, long)}
+ * notification, {@link #operationProgressed(const ChannelFuturePtr&, int, int, int)}
  * will not be invoked.  Like a usual {@link ChannelFutureListener} that this
- * interface extends, {@link #operationComplete(ChannelFuture)} will be called
+ * interface extends, {@link #operationComplete(const ChannelFuturePtr&)} will be called
  * when the future is marked as complete.
  *
  * <h3>Return the control to the caller quickly</h3>
  *
- * {@link #operationProgressed(ChannelFuture, long, long, long)} and
- * {@link #operationComplete(ChannelFuture)} is directly called by an I/O
+ * {@link #operationProgressed(const ChannelFuturePtr&, int, int, int)} and
+ * {@link #operationComplete(const ChannelFuturePtr&)} is directly called by an I/O
  * thread.  Therefore, performing a time consuming task or a blocking operation
  * in the handler method can cause an unexpected pause during I/O.  If you need
  * to perform a blocking operation on I/O completion, try to execute the
@@ -47,8 +47,8 @@ namespace cetty { namespace channel {
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2080 $, $Date: 2010-01-26 18:04:19 +0900 (Tue, 26 Jan 2010) $
  */
 
 class ChannelFutureProgressListener : public ChannelFutureListener {
@@ -62,7 +62,7 @@ public:
      * @param future  the source {@link ChannelFuture} which called this
      *                callback
      */
-    virtual void operationProgressed(const ChannelFuturePtr& future, long amount, long current, long total) = 0;
+    virtual void operationProgressed(const ChannelFuturePtr& future, int amount, int current, int total) = 0;
 };
 
 }}

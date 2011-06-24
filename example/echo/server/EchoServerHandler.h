@@ -37,7 +37,7 @@ using namespace cetty::buffer;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2121 $, $Date: 2010-02-02 09:38:07 +0900 (Tue, 02 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 class EchoServerHandler : public SimpleChannelUpstreamHandler {
 public:

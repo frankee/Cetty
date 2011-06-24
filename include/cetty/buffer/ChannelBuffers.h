@@ -88,7 +88,7 @@ using namespace cetty::util;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2269 $, $Date: 2010-05-06 16:37:27 +0900 (Thu, 06 May 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.landmark
  * @apiviz.has org.jboss.netty.buffer.ChannelBuffer oneway - - creates

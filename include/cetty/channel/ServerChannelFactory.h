@@ -16,12 +16,9 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-
 /*
  * Copyright (c) 2010-2011 frankee zhou (frankee.zhou at gmail dot com)
- *
  * Distributed under under the Apache License, version 2.0 (the "License").
- *
  */
 
 #include "cetty/channel/ChannelFactory.h"
@@ -33,10 +30,8 @@ namespace cetty { namespace channel {
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2080 $, $Date: 2010-01-26 18:04:19 +0900 (Tue, 26 Jan 2010) $
- *
- * @apiviz.has        cetty::channel::ServerChannel oneway - - creates
  */
 
 class ServerChannelFactory : public ChannelFactory {

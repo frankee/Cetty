@@ -83,11 +83,11 @@ using namespace cetty::util;
  *
  * <h3>Prefer {@link #addListener(ChannelFutureListener*)} to {@link #await()}</h3>
  *
- * It is recommended to prefer {@link #addListener(ChannelFutureListener)} to
+ * It is recommended to prefer {@link #addListener(ChannelFutureListener*)} to
  * {@link #await()} wherever possible to get notified when an I/O operation is
  * done and to do any follow-up tasks.
  * <p>
- * {@link #addListener(ChannelFutureListener)} is non-blocking.  It simply adds
+ * {@link #addListener(ChannelFutureListener*)} is non-blocking.  It simply adds
  * the specified {@link ChannelFutureListener} to the {@link ChannelFuture}, and
  * I/O thread will notify the listeners when the I/O operation associated with
  * the future is done.  {@link ChannelFutureListener} yields the best
@@ -113,8 +113,9 @@ using namespace cetty::util;
  * <pre>
  * // BAD - NEVER DO THIS
  * void messageReceived(ChannelHandlerContext& ctx, const MessageEvent& e) {
- *     if (e.getMessage() instanceof GoodByeMessage) {
- *         {@link ChannelFuturePtr} future = e.getChannel().close();
+ *     GoodByeMessage* msg = e.getMessage().pointer<GoodByeMessage>(); 
+ *     if (msg) {
+ *         {@link ChannelFuture ChannelFuturePtr} future = e.getChannel().close();
  *         future->awaitUninterruptibly();
  *         // Perform post-closure operation
  *         // ...
@@ -122,7 +123,7 @@ using namespace cetty::util;
  * }
  *
  * // GOOD
- * class MyChannelFutureListener : public ChannelFutureListener {
+ * class MyChannelFutureListener : public cetty::channel::ChannelFutureListener {
  * public:
  *     MyChannelFutureListener() {}
  *     virtual ~MyChannelFutureListener() {}
@@ -134,11 +135,27 @@ using namespace cetty::util;
  * };
  *
  * void messageReceived(ChannelHandlerContext& ctx, const MessageEvent& e) {
- *     if (e.getMessage() instanceof GoodByeMessage) {
- *         {@link ChannelFuturePtr} future = e.getChannel().close();
+ *     GoodByeMessage* msg = e.getMessage().pointer<GoodByeMessage>(); 
+ *     if (msg) {
+ *         {@link ChannelFuture ChannelFuturePtr} future = e.getChannel().close();
  *         future->addListener(new MyChannelFutureListener());
  *     }
  * }
+ *
+ * // BETTER (no need to manage the listener's life cycle)
+ * void handleGoodByeMessage(const ChannelFuturePtr& future) {
+ *         // Perform post-closure operation
+ *         // ...
+ * }
+ * 
+ * void messageReceived(ChannelHandlerContext& ctx, const MessageEvent& e) {
+ *     GoodByeMessage* msg = e.getMessage().pointer<GoodByeMessage>(); 
+ *     if (msg) {
+ *         const {@link ChannelFuture ChannelFuturePtr} &future = e.getChannel().close();
+ *         future->setListener(boost::bind(handleGoodByeMessage, future));
+ *     }
+ * }
+ *
  * </pre>
  * <p>
  * In spite of the disadvantages mentioned above, there are certainly the cases
@@ -148,24 +165,27 @@ using namespace cetty::util;
  *
  * <h3>Do not confuse I/O timeout and await timeout</h3>
  *
- * The timeout value you specify with {@link #await(long)},
- * {@link #await(long, TimeUnit)}, {@link #awaitUninterruptibly(long)}, or
- * {@link #awaitUninterruptibly(long, TimeUnit)} are not related with I/O
+ * The timeout value you specify with {@link #await(boost::int64_t)},
+ * {@link #await(boost::int64_t, const TimeUnit&)},
+ * {@link #awaitUninterruptibly(boost::int64_t)}, or
+ * {@link #awaitUninterruptibly(boost::int64_t, const TimeUnit&)} are not related with I/O
  * timeout at all.  If an I/O operation times out, the future will be marked as
  * 'completed with failure,' as depicted in the diagram above.  For example,
  * connect timeout should be configured via a transport-specific option:
  * <pre>
  * // BAD - NEVER DO THIS
  * {@link ClientBootstrap} b = ...;
- * {@link ChannelFuture} f = b.connect(...);
- * f.awaitUninterruptibly(10, TimeUnit.SECONDS);
- * if (f.isCancelled()) {
+ * {@link ChannelFuture ChannelFuturePtr} f = b.connect(...);
+ * f->awaitUninterruptibly(10, TimeUnit::SECONDS);
+ * if (f->isCancelled()) {
  *     // Connection attempt cancelled by user
- * } else if (!f.isSuccess()) {
+ * }
+ * else if (!f->isSuccess()) {
  *     // You might get a NullPointerException here because the future
  *     // might not be completed yet.
- *     f.getCause().printStackTrace();
- * } else {
+ *     // f->getCause().printStackTrace();
+ * }
+ * else {
  *     // Connection established successfully
  * }
  *
@@ -173,28 +193,27 @@ using namespace cetty::util;
  * {@link ClientBootstrap} b = ...;
  * // Configure the connect timeout option.
  * <b>b.setOption("connectTimeoutMillis", 10000);</b>
- * {@link ChannelFuture} f = b.connect(...);
- * f.awaitUninterruptibly();
+ * {@link ChannelFuture ChannelFuturePtr} f = b.connect(...);
+ * f->awaitUninterruptibly();
  *
  * // Now we are sure the future is completed.
- * assert f.isDone();
+ * assert f->isDone();
  *
- * if (f.isCancelled()) {
+ * if (f->isCancelled()) {
  *     // Connection attempt cancelled by user
- * } else if (!f.isSuccess()) {
- *     f.getCause().printStackTrace();
- * } else {
+ * }
+ * else if (!f->isSuccess()) {
+ *     //f->getCause().printStackTrace();
+ * }
+ * else {
  *     // Connection established successfully
  * }
  * </pre>
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2192 $, $Date: 2010-02-19 18:58:38 +0900 (Fri, 19 Feb 2010) $
- *
- * @apiviz.landmark
- * @apiviz.owns org.jboss.netty.channel.ChannelFutureListener - - notifies
  */
 
 typedef boost::intrusive_ptr<ChannelFuture> ChannelFuturePtr;

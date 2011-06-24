@@ -48,7 +48,7 @@ namespace cetty { namespace handler { namespace codec { namespace http {
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2230 $, $Date: 2010-03-31 12:02:58 +0900 (Wed, 31 Mar 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class HttpContentEncoder : public cetty:::channel::SimpleChannelHandler {

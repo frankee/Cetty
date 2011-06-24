@@ -46,7 +46,7 @@ using namespace cetty::channel;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2242 $, $Date: 2010-04-16 13:22:00 +0900 (Fri, 16 Apr 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.landmark
  * @apiviz.has org.jboss.netty.handler.codec.http.HttpChunk oneway - - filters out

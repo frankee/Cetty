@@ -46,10 +46,9 @@ using namespace cetty::util;
  * A channel provides a user:
  * <ul>
  * <li>the current state of the channel (e.g. is it open? is it connected?),</li>
- * <li>the @link ChannelConfig configuration parameters@endlink of the channel (e.g. receive buffer size),</li>
+ * <li>the {@link ChannelConfig configuration parameters} of the channel (e.g. receive buffer size),</li>
  * <li>the I/O operations that the channel supports (e.g. read, write, connect, and bind), and</li>
- * <li>the {@link ChannelPipeline} which handles all @link ChannelEvent I/O events and requests@endlink
- *     associated with the channel.</li>
+ * <li>the {@link ChannelPipeline} which handles all {@link ChannelEvent I/O events and requests} associated with the channel.</li>
  * </ul>
  *
  * <h3>All I/O operations are asynchronous.</h3>
@@ -77,13 +76,12 @@ using namespace cetty::util;
  * <p>
  * Some transports exposes additional operations that is specific to the
  * transport.  Down-cast the {@link Channel} to sub-type to invoke such
- * operations.  For example, with the old I/O datagram transport, multicast
+ * operations.  For example, with the I/O datagram transport, multicast
  * join / leave operations are provided by {@link DatagramChannel}.
  *
  * <h3>InterestOps</h3>
  * <p>
- * A {@link Channel} has a property called @link #getInterestOps() interestOps@endlink
- * which is similar to that of {@link SelectionKey#interestOps() NIO SelectionKey}.
+ * A {@link Channel} has a property called {@link #getInterestOps() interestOps}.
  * It is represented as a <a href="http://en.wikipedia.org/wiki/Bit_field">bit
  * field</a> which is composed of the two flags.
  * <ul>
@@ -107,24 +105,28 @@ using namespace cetty::util;
  * can set or clear {@link #OP_READ}. The {@link #OP_WRITE} flag is read only
  * and provided simply as a mean to tell you if the size of pending write
  * requests exceeded a certain threshold or not so that you don't issue too many
- * pending writes that lead to an {@link OutOfMemoryError}.  For example, the
- * NIO socket transport uses the <tt>writeBufferLowWaterMark</tt> and
- * <tt>writeBufferHighWaterMark</tt> properties in {@link NioSocketChannelConfig}
- * to determine when to set or clear the {@link #OP_WRITE} flag.
+ * pending writes. For example, the asio implimented socket transport uses the
+ * <tt>writeBufferLowWaterMark</tt> and <tt>writeBufferHighWaterMark</tt>
+ * properties in {@link AsioSocketChannelConfig} to determine when to set or
+ * clear the {@link #OP_WRITE} flag.
  * </p>
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2244 $, $Date: 2010-04-16 14:07:37 +0900 (Fri, 16 Apr 2010) $
+ * @dot
+ * strict digraph {
+ * node            [fontname=Helvetica]
+ * Channel         [shape=box]
+ * ChannelConfig   [shape=box URL="\ref ChannelConfig"]
+ * ChannelPipeline [shape=box URL="\ref ChannelPipeline"]
+ * Channel -> ChannelConfig [arrowtail=diamond]
+ * Channel -> ChannelPipeline [arrowtail=diamond]
+ * }
+ * @enddot
  *
- * @apiviz.landmark
- * @apiviz.composedOf org.jboss.netty.channel.ChannelConfig
- * @apiviz.composedOf org.jboss.netty.channel.ChannelPipeline
- *
- * @apiviz.exclude ^org\.jboss\.netty\.channel\.([a-z]+\.)+[^\.]+Channel$
  */
-
 class Channel {
 public:
     virtual ~Channel() {}
@@ -213,32 +215,30 @@ public:
      * Returns the local address where this channel is bound to. 
      *
      * @return the local address of this channel.
-     * @remark Return an {@link SocketAddress::NULL_ADDRESS empty SocketAddress}
+     * @remark Return an {@link SocketAddress NULL_ADDRESS}
      * if this channel is not bound.
      */
     virtual const SocketAddress& getLocalAddress() const = 0;
 
     /**
-     * Returns the remote address where this channel is connected to.  The
-     * returned {@link SocketAddress} is supposed to be down-cast into more
-     * concrete type such as {@link InetSocketAddress} to retrieve the detailed
-     * information.
+     * Returns the remote address where this channel is connected to.
      *
      * @return the remote address of this channel.
-     * @remark An empty {@link SocketAddress::NULL_ADDRESS empty SocketAddress}
+     * @remark An empty {@link SocketAddress NULL_ADDRESS}
      *         if this channel is not connected.
      *         If this channel is not connected but it can receive messages
      *         from arbitrary remote addresses (e.g. {@link DatagramChannel},
      *         use {@link MessageEvent#getRemoteAddress()} to determine
      *         the origination of the received message as this method will
-     *         return <tt>SocketAddress::NULL_ADDRESS</tt>.
+     *         return {@link SocketAddress NULL_ADDRESS}.
      */
     virtual const SocketAddress& getRemoteAddress() const = 0;
 
     /**
      * Sends a message to this channel asynchronously.    If this channel was
      * created by a connectionless transport (e.g. {@link DatagramChannel})
-     * and is not connected yet, you have to call {@link #write(Object, SocketAddress)}
+     * and is not connected yet, you have to call
+     * {@link #write(const ChannelMessage&, const SocketAddress&, bool)}
      * instead.  Otherwise, the write request will fail with
      * {@link NotYetConnectedException} and an <tt>'exceptionCaught'</tt> event
      * will be triggered.
@@ -246,7 +246,7 @@ public:
      * @param message the message to write
      * @param withFuture indicated wether to return a future or not
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be notified when the
      *         write request succeeds or fails
      *
      */
@@ -258,17 +258,18 @@ public:
      * parameter that allows a user to specify where to send the specified
      * message instead of this channel's current remote address.  If this
      * channel was created by a connectionless transport (e.g. {@link DatagramChannel})
-     * and is not connected yet, you must specify non-NULL address.  Otherwise,
+     * and is not connected yet, you must specify NOT NULL_ADDRESS.  Otherwise,
      * the write request will fail with {@link NotYetConnectedException} and
      * an <tt>'exceptionCaught'</tt> event will be triggered.
      *
      * @param message       the message to write
      * @param remoteAddress where to send the specified message.
-     *                      This method is identical to {@link #write(Object)}
-     *                      if <tt>NULL</tt> is specified here.
-     * @param withFurture   
+     *                      This method is identical to 
+     *                      {@link #write(const ChannelMessage&, bool)}
+     *                      if <tt>NULL_ADDRESS</tt> is specified here.
+     * @param withFurture indicated wether to return a future or not.   
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be notified when the
      *         write request succeeds or fails
      *
      */
@@ -281,10 +282,9 @@ public:
      *
      * @param localAddress where to bind
      *
-     * @return the {@link ChannelFuture} which will be notified when the
-     *         bind request succeeds or fails
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be 
+     *         notified when the bind request succeeds or fails
      *
-     * @throws NullPointerException if the specified address is <tt>NULL</tt>
      */
     virtual ChannelFuturePtr bind(const SocketAddress& localAddress) = 0;
 
@@ -293,17 +293,16 @@ public:
      *
      * @param remoteAddress where to connect
      *
-     * @return the {@link ChannelFuture} which will be notified when the
-     *         connection request succeeds or fails
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be 
+     *         notified when the connection request succeeds or fails
      *
-     * @throws NullPointerException if the specified address is <tt>NULL</tt>
      */
     virtual ChannelFuturePtr connect(const SocketAddress& remoteAddress) = 0;
 
     /**
      * Disconnects this channel from the current remote address asynchronously.
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be notified when the
      *         disconnection request succeeds or fails
      */
     virtual ChannelFuturePtr disconnect() = 0;
@@ -311,7 +310,7 @@ public:
     /**
      * Unbinds this channel from the current local address asynchronously.
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be notified when the
      *         unbind request succeeds or fails
      */
     virtual ChannelFuturePtr unbind() = 0;
@@ -323,19 +322,19 @@ public:
      * channel has no effect.  Please note that this method always returns the
      * same future instance.
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture  ChannelFuturePtr} which will be notified when the
      *         close request succeeds or fails
      */
     virtual ChannelFuturePtr close() = 0;
 
     /**
-     * Returns the {@link ChannelFuture} which will be notified when this
+     * Returns the {@link ChannelFuture  ChannelFuturePtr} which will be notified when this
      * channel is closed.  This method always returns the same future instance.
      */
     virtual ChannelFuturePtr&  getCloseFuture() = 0;
 
     /**
-     * Returns the {@link ChannelFuture} which is already succeeded.
+     * Returns the {@link ChannelFuture  ChannelFuturePtr} which is already succeeded.
      * This method always returns the same future instance, which is cached
      * for easy use.
      */
@@ -375,7 +374,7 @@ public:
      *
      * @param interestOps the new <tt>interestOps</tt>
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be notified when the
      *         <tt>interestOps</tt> change request succeeds or fails
      */
     virtual ChannelFuturePtr setInterestOps(int interestOps) = 0;
@@ -396,7 +395,7 @@ public:
      * @param readable <tt>true</tt> to resume the read operation and
      *                 <tt>false</tt> to suspend the read operation
      *
-     * @return the {@link ChannelFuture} which will be notified when the
+     * @return the {@link ChannelFuture ChannelFuturePtr} which will be notified when the
      *         <tt>interestOps</tt> change request succeeds or fails
      */
     virtual ChannelFuturePtr setReadable(bool readable) = 0;

@@ -240,6 +240,10 @@ void AsioDatagramChannel::sendto(const MessageEvent& evt) {
     const ChannelFuturePtr& f = evt.getFuture();
     const SocketAddress& address = evt.getRemoteAddress();
 
+    if (!address.validated()) {
+        Channels::fireExceptionCaught(*this, NotYetConnectedException());
+    }
+
     AsioWriteRequest writeRequest(evt);
     EndpointType endpoint(
         boost::asio::ip::address::from_string(address.address()),

@@ -44,7 +44,7 @@ class AsioServicePool;
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  * @author Daniel Bevenius (dbevenius@jboss.com)
  *
- * @version $Rev: 2217 $, $Date: 2010-03-16 18:39:56 +0900 (Tue, 16 Mar 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 class AsioDatagramPipelineSink : public cetty::channel::AbstractChannelSink {
 public:

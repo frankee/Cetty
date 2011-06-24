@@ -28,7 +28,7 @@ namespace cetty { namespace handler { namespace codec { namespace frame {
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev:231 $, $Date:2008-06-12 16:44:50 +0900 (ëª? 12 6ì›?2008) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  */
 class Delimiters {

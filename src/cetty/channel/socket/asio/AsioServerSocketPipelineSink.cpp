@@ -188,7 +188,12 @@ void AsioServerSocketPipelineSink::handleStateChange(AsioSocketChannel& channel,
     const boost::any& value = evt.getValue();
 
     if (ChannelState::INTEREST_OPS == state) {
-        channel.setInterestOps(future, ConversionUtil::toInt(value));
+        channel.getIOService().service().post(
+            boost::bind(AsioSocketChannel::setInterestOps,
+                        &channel,
+                        future,
+                        ConversionUtil::toInt(value)));
+        //channel.setInterestOps(future, ConversionUtil::toInt(value));
     }
     else {
         // when AsioAcceptedSocketChannel started, it has connected. So it will has

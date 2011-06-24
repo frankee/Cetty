@@ -65,8 +65,7 @@ class ChannelPipelineException;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- *
- * @version $Rev: 2119 $, $Date: 2010-02-01 20:46:09 +0900 (Mon, 01 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  */
 

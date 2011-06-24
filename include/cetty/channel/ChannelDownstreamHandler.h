@@ -37,7 +37,7 @@ class ChannelDownstreamHandler;
  * {@link ChannelEvent} to the next handler in a {@link ChannelPipeline}.
  * <p>
  * The most common use case of this interface is to intercept an I/O request
- * such as {@link Channel#write(Object)} and {@link Channel#close()}.
+ * such as {@link Channel#write(const ChannelMessage&, bool)} and {@link Channel#close()}.
  *
  * <h3>{@link SimpleChannelDownstreamHandler}</h3>
  * <p>
@@ -55,19 +55,26 @@ class ChannelDownstreamHandler;
  *
  * <pre>
  * // Sending the event downstream (outbound)
- * void handleDownstream({@link ChannelHandlerContext} ctx, {@link ChannelEvent} e) throws Exception {
+ * void handleDownstream({@link ChannelHandlerContext } &ctx, const {@link ChannelEvent} &e) {
  *     ...
  *     ctx.sendDownstream(e);
  *     ...
  * }
  *
  * // Sending the event upstream (inbound)
- * void handleDownstream({@link ChannelHandlerContext} ctx, {@link ChannelEvent} e) throws Exception {
+ * void handleDownstream({@link ChannelHandlerContext} &ctx, const {@link ChannelEvent} &e) {
  *     ...
  *     ctx.sendUpstream(new {@link UpstreamChannelStateEvent}(...));
  *     ...
  * }
  * </pre>
+ *
+ * <p>
+ * Special downstream event, MessageEvent &  ChannelStateEvent will invoke
+ * {@link #writeRequested(ChannelHandlerContext&, const MessageEvent&) writeRequested},
+ * {@link #stateChangeRequested(ChannelHandlerContext&, const ChannelStateEvent&) stateChangeRequested}.
+ * Others downstream event will invoke
+ * {@link #handleDownstream(ChannelHandlerContext&, const ChannelEvent&) handleDownstream}.
  *
  * <h4>Using the helper class to send an event</h4>
  * <p>
@@ -80,19 +87,18 @@ class ChannelDownstreamHandler;
  *
  * <h3>Thread safety</h3>
  * <p>
- * {@link #handleDownstream(ChannelHandlerContext, ChannelEvent) handleDownstream}
- * may be invoked by more than one thread simultaneously.  If the handler
- * accesses a shared resource or stores stateful information, you might need
+ * {@link #handleDownstream(ChannelHandlerContext&, const ChannelEvent&) handleDownstream},
+ * {@link #writeRequested(ChannelHandlerContext&, const MessageEvent&) writeRequested} and
+ * {@link #stateChangeRequested(ChannelHandlerContext&, const ChannelStateEvent&) stateChangeRequested}
+ * may be invoked by more than one thread simultaneously if the handler is sharedable.
+ * If the handler accesses a shared resource or stores stateful information, you might need
  * proper synchronization in the handler implementation.
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2122 $, $Date: 2010-02-02 11:00:04 +0900 (Tue, 02 Feb 2010) $
- *
- * @apiviz.exclude ^org\.jboss\.netty\.handler\..*$
  */
-
 
 typedef boost::intrusive_ptr<ChannelDownstreamHandler> ChannelDownstreamHandlerPtr;
 
@@ -101,7 +107,7 @@ public:
     virtual ~ChannelDownstreamHandler() {}
 
     /**
-     * Handles the specified downstream event.
+     * Handles the specified downstream event except MessageEvent and ChannelStateEvent.
      *
      * @param ctx  the context object for this handler
      * @param e    the downstream event to process or intercept

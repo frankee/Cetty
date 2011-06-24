@@ -42,7 +42,7 @@ class LifeCycleAwareChannelHandler;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2080 $, $Date: 2010-01-26 18:04:19 +0900 (Tue, 26 Jan 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 typedef boost::intrusive_ptr<LifeCycleAwareChannelHandler> LifeCycleAwareChannelHandlerPtr;

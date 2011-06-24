@@ -29,7 +29,7 @@ namespace cetty { namespace handler { namespace codec { namespace http {
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  * @author Andy Taylor (andy.taylor@jboss.org)
- * @version $Rev: 2241 $, $Date: 2010-04-16 13:12:43 +0900 (Fri, 16 Apr 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class Cookie /*extends Comparable<Cookie> */{

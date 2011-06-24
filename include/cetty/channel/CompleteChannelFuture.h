@@ -42,7 +42,7 @@ using namespace ::cetty::logging;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2192 $, $Date: 2010-02-19 18:58:38 +0900 (Fri, 19 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 class CompleteChannelFuture : public ChannelFuture {

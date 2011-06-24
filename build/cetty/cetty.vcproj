@@ -520,30 +520,6 @@
 				>
 			</File>
 			<Filter
-				Name="group"
-				>
-				<File
-					RelativePath="..\..\include\cetty\channel\group\ChannelGroup.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\cetty\channel\group\ChannelGroupFuture.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\cetty\channel\group\ChannelGroupFutureListener.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\cetty\channel\group\DefaultChannelGroup.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\cetty\channel\group\DefaultChannelGroupFuture.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="socket"
 				>
 				<File
@@ -1271,22 +1247,6 @@
 				<Filter
 					Name="protobuf"
 					>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\protobuf\ProtobufDecoder.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\protobuf\ProtobufEncoder.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\protobuf\ProtobufVarint32FrameDecoder.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\protobuf\ProtobufVarint32LengthFieldPrepender.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="embedder"
@@ -1343,54 +1303,10 @@
 				<Filter
 					Name="base64"
 					>
-					<File
-						RelativePath="..\..\src\cetty\handler\codec\base64\Base64.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\base64\Base64Decoder.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\cetty\handler\codec\base64\Base64Dialect.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\base64\Base64Dialect.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\base64\Base64Encoder.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="compression"
 					>
-					<File
-						RelativePath="..\..\src\cetty\handler\codec\compression\CompressionException.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\compression\CompressionException.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\compression\ZlibDecoder.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\compression\ZlibEncoder.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\compression\ZlibUtil.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\cetty\handler\codec\compression\ZlibWrapper.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="replay"

@@ -282,7 +282,7 @@ using namespace cetty::buffer;
  *
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2380 $, $Date: 2010-11-09 14:35:24 +0900 (Tue, 09 Nov 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @param <T>
  *        the state type; use {@link VoidEnum} if state management is unused

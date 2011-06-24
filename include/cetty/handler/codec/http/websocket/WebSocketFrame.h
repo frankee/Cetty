@@ -35,7 +35,7 @@ class WebSocketFrame;
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2342 $, $Date: 2010-07-07 14:07:39 +0900 (Wed, 07 Jul 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 
 typedef boost::intrusive_ptr<WebSocketFrame> WebSocketFramePtr;

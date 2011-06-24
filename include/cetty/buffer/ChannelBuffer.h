@@ -250,7 +250,7 @@ class ChannelBufferIndexFinder;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2268 $, $Date: 2010-05-06 16:33:26 +0900 (Thu, 06 May 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.landmark
  */

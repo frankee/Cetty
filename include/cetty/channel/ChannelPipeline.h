@@ -217,7 +217,7 @@ class ChannelHandlerContext;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2153 $, $Date: 2010-02-17 17:24:25 +0900 (Wed, 17 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.landmark
  * @apiviz.composedOf org.jboss.netty.channel.ChannelHandlerContext

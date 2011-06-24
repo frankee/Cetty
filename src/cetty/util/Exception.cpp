@@ -145,6 +145,7 @@ CETTY_IMPLEMENT_EXCEPTION(RegularExpressionException, RuntimeException, "Error i
 CETTY_IMPLEMENT_EXCEPTION(LibraryLoadException, RuntimeException, "Cannot load library")
 CETTY_IMPLEMENT_EXCEPTION(LibraryAlreadyLoadedException, RuntimeException, "Library already loaded")
 CETTY_IMPLEMENT_EXCEPTION(NoThreadAvailableException, RuntimeException, "No thread available")
+CETTY_IMPLEMENT_EXCEPTION(NotYetConnectedException, RuntimeException, "Not yet Connected")
 CETTY_IMPLEMENT_EXCEPTION(InterruptedException, RuntimeException, "Interrupted Exception")
 CETTY_IMPLEMENT_EXCEPTION(PropertyNotSupportedException, RuntimeException, "Property not supported")
 CETTY_IMPLEMENT_EXCEPTION(PoolOverflowException, RuntimeException, "Pool overflow")

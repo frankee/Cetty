@@ -37,7 +37,7 @@ using namespace cetty::channel;
  * 
  * @author Mike Heath (mheath@apache.org)
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2362 $, $Date: 2010-09-09 19:59:22 +0900 (Thu, 09 Sep 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.landmark
  * @apiviz.uses org.jboss.netty.handler.codec.http.websocket.WebSocketFrame

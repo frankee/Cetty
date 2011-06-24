@@ -41,7 +41,7 @@ namespace cetty { namespace handler { namespace codec { namespace http {
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2249 $, $Date: 2010-04-16 22:32:55 +0900 (Fri, 16 Apr 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @see HttpServerCodec
  *

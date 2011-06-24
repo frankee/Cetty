@@ -48,7 +48,7 @@ using namespace cetty::channel;
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2145 $, $Date: 2010-02-09 12:56:29 +0900 (Tue, 09 Feb 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  * @apiviz.uses cetty::channel::ChannelFactory
  */

@@ -33,7 +33,7 @@ class ReplayingDecoderBuffer;
  *
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
  *
- * @version $Rev: 2294 $, $Date: 2010-06-01 18:19:19 +0900 (Tue, 01 Jun 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
  */
 

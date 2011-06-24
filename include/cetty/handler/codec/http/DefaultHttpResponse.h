@@ -33,7 +33,7 @@ namespace cetty { namespace handler { namespace codec { namespace http {
  * 
  * @author Andy Taylor (andy.taylor@jboss.org)
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
- * @version $Rev: 2088 $, $Date: 2010-01-27 11:38:17 +0900 (Wed, 27 Jan 2010) $
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  */
 class DefaultHttpResponse : public HttpResponse {
 public:

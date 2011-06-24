@@ -33,11 +33,11 @@ class ChannelPipeline;
 /**
  * The main interface to a transport that creates a {@link Channel} associated
  * with a certain communication entity such as a network socket.  For example,
- * the {@link NioServerSocketChannelFactory} creates a channel which has a
- * NIO-based server socket as its underlying communication entity.
+ * the {@link AsioServerSocketChannelFactory} creates a channel which has a
+ * ASIO-based server socket as its underlying communication entity.
  * <p>
  * Once a new {@link Channel} is created, the {@link ChannelPipeline} which
- * was specified as a parameter in the {@link #newChannel(ChannelPipeline)}
+ * was specified as a parameter in the {@link #newChannel(ChannelPipeline*)}
  * is attached to the new {@link Channel}, and starts to handle all associated
  * {@link ChannelEvent}s.
  *
@@ -46,24 +46,18 @@ class ChannelPipeline;
  * To shut down a network application service which is managed by a factory.
  * you should follow the following steps:
  * <ol>
- * <li>close all channels created by the factory and their child channels
- *     usually using {@link ChannelGroup#close()}, and</li>
+ * <li>close all channels created by the factory and their child channels, and</li>
  * <li>call {@link #releaseExternalResources()}.</li>
  * </ol>
  * <p>
  * For detailed transport-specific information on shutting down a factory,
- * please refer to the Javadoc of {@link ChannelFactory}'s subtypes, such as
- * {@link NioServerSocketChannelFactory}.
+ * please refer to the {@link ChannelFactory}'s subtypes, such as
+ * {@link AsioServerSocketChannelFactory}.
  *
  * 
  * @author <a href="http://gleamynode.net/">Trustin Lee</a>
+ * @author <a href="mailto:frankee.zhou@gmail.com">Frankee Zhou</a>
  *
- * @version $Rev: 2080 $, $Date: 2010-01-26 18:04:19 +0900 (Tue, 26 Jan 2010) $
- *
- * @apiviz.landmark
- * @apiviz.has        org.jboss.netty.channel.Channel oneway - - creates
- *
- * @apiviz.exclude ^org\.jboss\.netty\.channel\.([a-z]+\.)+.*ChannelFactory$
  */
 
 typedef boost::shared_ptr<ChannelFactory> ChannelFactoryPtr;
