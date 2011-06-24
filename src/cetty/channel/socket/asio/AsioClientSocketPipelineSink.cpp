@@ -82,12 +82,14 @@ void AsioClientSocketPipelineSink::handleStateChange(AsioSocketChannel& channel,
         }
     }
     else if (state == ChannelState::INTEREST_OPS) {
-        channel.getIOService().service().post(
-            boost::bind(AsioSocketChannel::setInterestOps,
-            &channel,
-            future,
-            ConversionUtil::toInt(value)));
-        //channel.setInterestOps(future, ConversionUtil::toInt(value));
+        //TODO should be async operation
+//        channel.getIOService().service().post(
+//             boost::bind<void, const ChannelFuturePtr& , int>(
+//                 &AsioSocketChannel::setInterestOps,
+//                 &channel,
+//                 future,
+//                 ConversionUtil::toInt(value)));
+        channel.setInterestOps(future, ConversionUtil::toInt(value));
     }
 }
 
