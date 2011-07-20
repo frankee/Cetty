@@ -17,6 +17,7 @@
 
 #include "cetty/buffer/CompositeChannelBuffer.h"
 #include "cetty/buffer/ChannelBuffers.h"
+#include "cetty/buffer/GatheringBuffer.h"
 #include "cetty/buffer/HeapChannelBufferFactory.h"
 
 #include "cetty/util/Exception.h"
@@ -553,6 +554,21 @@ int CompositeChannelBuffer::getComponentId(int index) {
     }
 
     throw RangeException("");
+}
+
+void CompositeChannelBuffer::readSlice(Array& array) {
+
+}
+
+void CompositeChannelBuffer::readSlice(GatheringBuffer& gathering) {
+    size_t i,j;
+    Array arry;
+    for (i = 0, j = components.size(); i < j; ++i) {
+        if (components[i]->readable()) {
+            components[i]->readSlice(arry);
+            gathering.append(arry.data(), arry.length());
+        }
+    }
 }
 
 }}

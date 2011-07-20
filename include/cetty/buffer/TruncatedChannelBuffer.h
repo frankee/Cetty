@@ -105,8 +105,8 @@ public:
     virtual void setBytes(int index, const ChannelBuffer& src, int srcIndex, int length);
     virtual int  setBytes(int index, InputStream& in, int length);
     
-    virtual void readSlice(Array& array){};
-    virtual void readSlice(GatheringBuffer& gathering) {}
+    virtual void readSlice(Array& array);
+    virtual void readSlice(GatheringBuffer& gathering);
 
 private:
     void checkIndex(int index) const;

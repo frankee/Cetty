@@ -46,7 +46,7 @@ public:
     DefaultWriteCompletionEvent(Channel& channel, int writtenAmount)
         : channel(channel),
           writtenAmount(writtenAmount) {
-        if (writtenAmount <= 0) {
+        if (writtenAmount < 0) {
             throw InvalidArgumentException("writtenAmount must be a positive integer: ");
         }
     }

@@ -163,7 +163,10 @@ public:
         return buffer->setBytes(index, in, length);
     }
 
-    virtual void readSlice(Array& array){}
+    virtual void readSlice(Array& array) {
+        array.reset(buffer->array().data(readerIdx), writerIdx - readerIdx);
+        readerIdx = writerIdx = 0;
+    }
     virtual void readSlice(GatheringBuffer& gathering) {}
 
 private:

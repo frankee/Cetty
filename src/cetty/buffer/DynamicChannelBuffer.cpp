@@ -104,4 +104,12 @@ cetty::buffer::ChannelBufferPtr DynamicChannelBuffer::slice(int index, int lengt
     }
 }
 
+void DynamicChannelBuffer::readSlice(Array& array) {
+    array.reset(buffer->array().data(readerIdx), writerIdx - readerIdx);
+    readerIdx = writerIdx = 0;
+}
+
+void DynamicChannelBuffer::readSlice(GatheringBuffer& gathering) {
+}
+
 }}

@@ -200,8 +200,8 @@ public:
     virtual ChannelBufferPtr slice(int index, int length);
     virtual void slice(Array& array) {}
 
-    virtual void readSlice(Array& array){}
-    virtual void readSlice(GatheringBuffer& gathering) {}
+    virtual void readSlice(Array& array);
+    virtual void readSlice(GatheringBuffer& gathering);
 
 private:
     ByteOrder endianness;

@@ -10,8 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cetty", "..\cetty\cetty.vcp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnoopClient", "SnoopClient.vcproj", "{73CE27B2-1F98-49B4-9E79-C4F88840ACB3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebSocket", "WebSocket.vcproj", "{0B3600ED-DA41-45B7-9C1C-45AD98104314}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -30,10 +28,6 @@ Global
 		{73CE27B2-1F98-49B4-9E79-C4F88840ACB3}.Debug|Win32.Build.0 = Debug|Win32
 		{73CE27B2-1F98-49B4-9E79-C4F88840ACB3}.Release|Win32.ActiveCfg = Release|Win32
 		{73CE27B2-1F98-49B4-9E79-C4F88840ACB3}.Release|Win32.Build.0 = Release|Win32
-		{0B3600ED-DA41-45B7-9C1C-45AD98104314}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0B3600ED-DA41-45B7-9C1C-45AD98104314}.Debug|Win32.Build.0 = Debug|Win32
-		{0B3600ED-DA41-45B7-9C1C-45AD98104314}.Release|Win32.ActiveCfg = Release|Win32
-		{0B3600ED-DA41-45B7-9C1C-45AD98104314}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

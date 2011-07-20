@@ -162,4 +162,13 @@ void TruncatedChannelBuffer::checkIndex(int index, int length) const {
     }
 }
 
+void TruncatedChannelBuffer::readSlice(Array& array) {
+    array.reset(buffer->array().data(readerIdx), writerIdx - readerIdx);
+    readerIdx = writerIdx = 0;
+}
+
+void TruncatedChannelBuffer::readSlice(GatheringBuffer& gathering) {
+
+}
+
 }}
