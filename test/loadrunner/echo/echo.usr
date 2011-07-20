@@ -1,0 +1,45 @@
+[General]
+Type=WinSock
+DefaultCfg=default.cfg
+AppName=NO_APP_IGNORE
+BuildTarget=
+ParamRightBrace=>
+ParamLeftBrace=<
+NewFunctionHeader=0
+LastActiveAction=vuser_init
+CorrInfoReportDir=result1
+DevelopTool=Vugen
+MajorVersion=8
+MinorVersion=0
+ParameterFile=
+GlobalParameterFile=
+RunType=cci
+LastModifyVer=8.0
+[ExtraFiles]
+data.ws=
+[TransactionsOrder]
+Order=""
+[Actions]
+vuser_init=vuser_init.c
+Action=Action.c
+vuser_end=vuser_end.c
+[Recorded Actions]
+vuser_init=1
+Action=1
+vuser_end=0
+data.ws=0
+[Replayed Actions]
+vuser_init=1
+Action=1
+vuser_end=1
+data.ws=0
+[Interpreters]
+vuser_init=cci
+Action=cci
+vuser_end=cci
+[VuserProfiles]
+Profiles=Default Profile
+[CfgFiles]
+Default Profile=default.cfg
+[RunLogicFiles]
+Default Profile=default.usp
