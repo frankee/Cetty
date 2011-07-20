@@ -10,5 +10,5 @@ echo compile
 devenv google-perftools-1.7\libtcmalloc_minimal_static.sln /rebuild "Debug|Win32"
 devenv google-perftools-1.7\libtcmalloc_minimal_static.sln /rebuild "Release|Win32"
 
-xcopy google-perftools-1.7\release\libtcmalloc_minimal-Debug.lib ..\
-xcopy google-perftools-1.7\release\libtcmalloc_minimal.lib ..\
+xcopy google-perftools-1.7\debug\libtcmalloc_minimal-Debug.lib ..\lib\libtcmalloc_minimal-Debug.lib
+xcopy google-perftools-1.7\release\libtcmalloc_minimal.lib ..\lib\libtcmalloc_minimal.lib
