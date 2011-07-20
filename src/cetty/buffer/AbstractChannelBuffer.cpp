@@ -415,7 +415,9 @@ void AbstractChannelBuffer::readBytes(OutputStream& out, int length) {
 }
 
 ChannelBufferPtr AbstractChannelBuffer::readSlice() {
-    return readSlice(readableBytes());
+    ChannelBufferPtr buffer = readSlice(readableBytes());
+    readerIdx = writerIdx = 0;
+    return buffer;
 }
 
 cetty::buffer::ChannelBufferPtr AbstractChannelBuffer::readSlice(int length) {

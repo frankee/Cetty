@@ -67,7 +67,7 @@ public:
 
     virtual ~FixedLengthFrameDecoder() {}
 
-    virtual boost::shared_ptr<ChannelHandler> clone() {
+    virtual ChannelHandlerPtr clone() {
         return shared_from_this();
     }
     virtual std::string toString() const { return "FixedLengthFrameDecoder"; }
