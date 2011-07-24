@@ -1247,6 +1247,22 @@
 				<Filter
 					Name="protobuf"
 					>
+					<File
+						RelativePath="..\..\src\cetty\handler\codec\protobuf\ProtobufDecoder.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\include\cetty\handler\codec\protobuf\ProtobufDecoder.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\cetty\handler\codec\protobuf\ProtobufEncoder.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\include\cetty\handler\codec\protobuf\ProtobufEncoder.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="embedder"
