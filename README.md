@@ -1,7 +1,7 @@
 The Cetty Project  - Network Application Framework for c++
 ===============================================================================
 
-**using cetty2 please, this version of the project is not under the develement any more**
+**using [cetty2](https://github.com/frankee/cetty2) please, this version of the project is not under the develement any more**
 
 Brief Introduce
 ---------------
